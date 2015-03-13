@@ -257,16 +257,8 @@ freenas_custom()
 	# and info (2MB)
 	rm -rf ${NANO_WORLDDIR}/usr/local/info
 
-	# and man pages (4.4MB)
-	rm -rf ${NANO_WORLDDIR}/usr/local/man
-
 	# and examples (1.7M)
 	rm -rf ${NANO_WORLDDIR}/usr/local/share/examples
-
-	# and groff_fonts junk (3MB)
-	rm -rf ${NANO_WORLDDIR}/usr/share/groff_font
-	rm -rf ${NANO_WORLDDIR}/usr/share/tmac
-	rm -rf ${NANO_WORLDDIR}/usr/share/me
 
 	# Kill all .a's and .la's that are installed (20MB+)
 	find ${NANO_WORLDDIR} -name \*.a -or -name \*.la -delete
