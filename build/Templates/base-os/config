@@ -10,6 +10,7 @@ arch = freebsd:10:x86:64
 licenselogic = or
 licenses = [BSD, MIT, GPL]
 
+requires-reboot = True
 [Scripts]
 post-install = /usr/bin/touch /boot/kernel/linker.hints
 	/usr/bin/touch /boot/modules/linker.hints
@@ -20,8 +21,13 @@ post-install = /usr/bin/touch /boot/kernel/linker.hints
 
 post-upgrade = /usr/bin/touch /boot/kernel/linker.hints
 	/usr/bin/touch /boot/modules/linker.hints
-	/usr/bin/touch /data/cd-upgrade
-	/usr/bin/touch /data/need-update
+	if [ -c /dev/null -a -f /boot/grub/grub.cfg ]; then
+	   for disk in $(sysctl -n kern.disks); do
+	       gpart show ${disk} | grep -q bios-boot && /usr/local/sbin/grub-install --modules="zfs part_gpt" /dev/${disk}
+	   done
+	fi
+#	/usr/bin/touch /data/cd-upgrade
+#	/usr/bin/touch /data/need-update
 	/usr/local/sbin/dsmigrate -f /usr/local/share/datastore/factory.json
 
 [Files]
@@ -40,3 +46,5 @@ exclude = /usr/local/www/gui
 	/conf/var/db/pkg
 	/etc/rc.d/netif
 	/etc/rc.d/routing
+	/conf/base/var/db/pkg
+	/dev/*
