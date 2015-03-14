@@ -15,3 +15,12 @@ requires-reboot = False
 [Files]
 include = /usr/local/www/gui
 
+# Replace below with appropriate thing for freenas10 or remove it (to consult with sef and jakub about it)
+#post-upgrade =
+#            yes | /usr/local/bin/python /usr/local/www/freenasUI/manage.py migrate --all --merge --delete-ghost-migrations > #"/data/update.failed" 2>&1 && rm -f /data/update.failed
+
+pre-delta =
+       /usr/sbin/service gui stop
+
+post-delta =
+       /usr/sbin/service gui start
