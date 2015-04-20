@@ -31,6 +31,8 @@ case $1 in
 		;;
 	"EMAIL"|"COMMBAD"|"COMMOK")
 		if [ "${ups_emailnotify}" -eq 1 ]; then
+			# Mail probably eventually calls the normal freenas python send_mail.
+			# Does it run /etc/find_alias....
 			echo "$NOTIFYTYPE - $UPSNAME" | mail -s "$(echo "${ups_subject}"|sed "s/%d/$(date)/"|sed "s/%h/$(hostname)/")" "${ups_toemail}"
 		fi
 		;;
